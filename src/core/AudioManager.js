@@ -324,73 +324,66 @@ class AudioManagerClass {
         if (!this._ensureContext()) return;
         this.stopMusic();
 
-        // Simple chiptune melody: 8-bar loop
-        // Key of C major, 120 BPM => beat = 0.5s, bar = 2s, 8 bars = 16s
-        const bpm = 120;
+        // Dr. Wily's Castle Stage 1 (Mega Man 2) — 8-Bit Recreation
+        // Transcribed from MIDI data. Key: C# minor, 170 BPM, 8-bar loop
+        const bpm = 170;
         const beat = 60 / bpm;
-        const t = this._ctx.currentTime + 0.05;
+        const sx = beat / 4; // sixteenth note ≈ 0.088s
 
-        // Melody notes (square wave) - simple catchy chiptune
-        // [note_freq, start_beat, duration_beats]
+        // Note frequencies (Hz)
+        const A2 = 110.00, B2 = 123.47, Cs3 = 138.59;
+        const Cs4 = 277.18, Ds4 = 311.13, E4 = 329.63,
+              Fs4 = 369.99, Gs4 = 415.30, As4 = 466.16, B4 = 493.88;
+        const Ds5 = 622.25, E5 = 659.26;
+
+        // Lead melody (square wave): [freq, start_sixteenth, duration_sixteenths]
         const melody = [
-            // Bar 1-2: Opening phrase
-            [523.25, 0, 1],    // C5
-            [587.33, 1, 1],    // D5
-            [659.25, 2, 1.5],  // E5
-            [523.25, 3.5, 0.5],// C5
-            [659.25, 4, 1],    // E5
-            [783.99, 5, 1],    // G5
-            [659.25, 6, 2],    // E5
-            // Bar 3-4: Response
-            [783.99, 8, 1],    // G5
-            [698.46, 9, 1],    // F5
-            [659.25, 10, 1],   // E5
-            [587.33, 11, 1],   // D5
-            [523.25, 12, 1.5], // C5
-            [392.00, 13.5, 0.5],// G4
-            [440.00, 14, 2],   // A4
-            // Bar 5-6: Build-up
-            [523.25, 16, 1],   // C5
-            [659.25, 17, 1],   // E5
-            [783.99, 18, 1],   // G5
-            [1046.50, 19, 1],  // C6
-            [987.77, 20, 1],   // B5
-            [880.00, 21, 1],   // A5
-            [783.99, 22, 2],   // G5
-            // Bar 7-8: Resolution
-            [880.00, 24, 1],   // A5
-            [783.99, 25, 1],   // G5
-            [659.25, 26, 1],   // E5
-            [587.33, 27, 1],   // D5
-            [523.25, 28, 3],   // C5
-            [523.25, 31, 1],   // C5 (pickup)
+            // Mm 1–2 (C#m): Iconic ♬♩ pulse on E4/C#4, then melody entrance
+            [E4, 2, 1], [E4, 3, 1], [E4, 4, 2],
+            [E4, 6, 1], [E4, 7, 1], [E4, 8, 2],
+            [Cs4, 10, 2],
+            [Cs4, 14, 1], [Cs4, 15, 1],
+            [E4, 16, 2],
+            [E4, 18, 1], [E4, 19, 1], [E4, 20, 2],
+            [Cs4, 22, 2],
+            [Gs4, 26, 2], [Fs4, 28, 2], [Gs4, 30, 2],
+
+            // Mm 3–4 (A): Pulse resumes, then stepwise descent
+            [E4, 34, 1], [E4, 35, 1], [E4, 36, 2],
+            [E4, 38, 1], [E4, 39, 1], [E4, 40, 2],
+            [Cs4, 42, 2],
+            [Gs4, 46, 4], [Fs4, 50, 4], [E4, 54, 4], [Fs4, 58, 4],
+
+            // Mm 5–6 (B): Pulse on F#4/D#4, then descending line
+            [Fs4, 66, 1], [Fs4, 67, 1], [Fs4, 68, 2],
+            [Fs4, 70, 1], [Fs4, 71, 1], [Fs4, 72, 2],
+            [Ds4, 74, 2],
+            [Gs4, 78, 4], [Fs4, 82, 4], [E4, 86, 4], [Ds4, 90, 4], [Cs4, 94, 2],
+
+            // Mm 7–8 (C#m): The famous soaring climax!
+            [Cs4, 98, 2], [Gs4, 100, 2], [B4, 102, 2],
+            [As4, 104, 6],              // sustained A#4 — emotional peak
+            [Cs4, 110, 2],
+            [Cs4, 114, 2], [Gs4, 116, 2], [B4, 118, 2],
+            [As4, 120, 4],              // second peak
+            [Ds5, 124, 2], [E5, 126, 2], // pickup into repeat
         ];
 
-        // Bass line (triangle wave)
-        const bassline = [
-            // Bar 1-2
-            [130.81, 0, 2],   // C3
-            [130.81, 2, 2],   // C3
-            [130.81, 4, 2],   // C3
-            [164.81, 6, 2],   // E3
-            // Bar 3-4
-            [174.61, 8, 2],   // F3
-            [164.81, 10, 2],  // E3
-            [146.83, 12, 2],  // D3
-            [110.00, 14, 2],  // A2
-            // Bar 5-6
-            [130.81, 16, 2],  // C3
-            [164.81, 18, 2],  // E3
-            [196.00, 20, 2],  // G3
-            [174.61, 22, 2],  // F3
-            // Bar 7-8
-            [174.61, 24, 2],  // F3
-            [196.00, 26, 2],  // G3
-            [130.81, 28, 3],  // C3
-            [130.81, 31, 1],  // C3
-        ];
+        // Bass (triangle wave): driving eighth notes on chord roots
+        const bassline = [];
+        // C#m (measures 1–2, sx 0–31)
+        for (let i = 0; i < 32; i += 2) bassline.push([Cs3, i, 2]);
+        // A (measures 3–4, sx 32–63)
+        for (let i = 32; i < 64; i += 2) bassline.push([A2, i, 2]);
+        // B (measures 5–6, sx 64–95)
+        for (let i = 64; i < 96; i += 2) bassline.push([B2, i, 2]);
+        // C#m (measures 7–8, sx 96–127) with B passing tone
+        for (let i = 96; i < 124; i += 2) bassline.push([Cs3, i, 2]);
+        bassline.push([B2, 124, 2]);
+        bassline.push([Cs3, 126, 2]);
 
-        const loopDuration = 32 * beat; // 16 seconds
+        const loopSixteenths = 128; // 8 measures × 16 sixteenths
+        const loopDuration = loopSixteenths * sx;
         this._musicLoopTimer = null;
 
         const scheduleLoop = () => {
@@ -398,9 +391,9 @@ class AudioManagerClass {
             const nodes = [];
 
             // Schedule melody
-            for (const [freq, startBeat, durBeats] of melody) {
-                const s = now + startBeat * beat;
-                const dur = durBeats * beat;
+            for (const [freq, startSx, durSx] of melody) {
+                const s = now + startSx * sx;
+                const dur = durSx * sx;
                 const o = this._ctx.createOscillator();
                 const g = this._ctx.createGain();
                 o.type = 'square';
@@ -416,9 +409,9 @@ class AudioManagerClass {
             }
 
             // Schedule bassline
-            for (const [freq, startBeat, durBeats] of bassline) {
-                const s = now + startBeat * beat;
-                const dur = durBeats * beat;
+            for (const [freq, startSx, durSx] of bassline) {
+                const s = now + startSx * sx;
+                const dur = durSx * sx;
                 const o = this._ctx.createOscillator();
                 const g = this._ctx.createGain();
                 o.type = 'triangle';

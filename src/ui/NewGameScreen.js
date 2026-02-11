@@ -17,6 +17,11 @@ export class NewGameScreen extends Screen {
                 <div class="dos-window">
                     <div class="dos-window-title">NEUES SPIEL - TEAMAUSWAHL</div>
                     <div class="dos-window-content">
+                        <div style="margin-bottom: 12px;">
+                            <label for="manager-name" style="color: var(--text-yellow);">Dein Managername:</label>
+                            <input type="text" id="manager-name" class="dos-input" placeholder="Manager"
+                                   style="margin-left: 8px; background: var(--bg-primary, #000); color: var(--text-bright); border: 1px solid var(--text-cyan); padding: 4px 8px; font-family: var(--font-body, 'VT323', monospace); font-size: 0.7rem;" />
+                        </div>
                         <h2>Waehle dein Team fuer die Saison 2025/26:</h2>
                         <div class="team-grid mt-2" id="team-grid">
                             ${teamsBL1.map(t => `
@@ -96,7 +101,9 @@ export class NewGameScreen extends Screen {
     }
 
     _startGame() {
-        const state = gameState.createNewGame(this._selectedTeam.id, teamsBL1, playersBL1);
+        const nameInput = this._el.querySelector('#manager-name');
+        const managerName = (nameInput && nameInput.value.trim()) || 'Manager';
+        const state = gameState.createNewGame(this._selectedTeam.id, teamsBL1, playersBL1, managerName);
         gameState.init(state);
         LeagueManager.initSeason();
         LeagueManager.autoSetLineups();

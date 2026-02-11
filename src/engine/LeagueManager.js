@@ -41,16 +41,25 @@ export class LeagueManager {
         }
 
         // Pick best GK
+        const posOrSecondary = (p, positions) =>
+            positions.includes(p.position) || (p.secondaryPosition && positions.includes(p.secondaryPosition));
+
         const gks = players.filter(p => p.position === 'TW').sort((a, b) => b.overall - a.overall);
-        const defs = players.filter(p => ['IV', 'LV', 'RV'].includes(p.position)).sort((a, b) => b.overall - a.overall);
-        const mids = players.filter(p => ['ZM', 'ZDM', 'ZOM', 'LM', 'RM'].includes(p.position)).sort((a, b) => b.overall - a.overall);
-        const atts = players.filter(p => ['ST', 'LA', 'RA'].includes(p.position)).sort((a, b) => b.overall - a.overall);
+        const defs = players.filter(p => posOrSecondary(p, ['IV', 'LV', 'RV'])).sort((a, b) => b.overall - a.overall);
+        const mids = players.filter(p => posOrSecondary(p, ['ZM', 'ZDM', 'ZOM', 'LM', 'RM'])).sort((a, b) => b.overall - a.overall);
+        const atts = players.filter(p => posOrSecondary(p, ['ST', 'LA', 'RA'])).sort((a, b) => b.overall - a.overall);
 
         const lineup = [];
         if (gks.length > 0) lineup.push(gks[0].id);
-        for (const d of defs.slice(0, 4)) lineup.push(d.id);
-        for (const m of mids.slice(0, 4)) lineup.push(m.id);
-        for (const a of atts.slice(0, 2)) lineup.push(a.id);
+        for (const d of defs.slice(0, 4)) {
+            if (!lineup.includes(d.id)) lineup.push(d.id);
+        }
+        for (const m of mids.slice(0, 4)) {
+            if (!lineup.includes(m.id)) lineup.push(m.id);
+        }
+        for (const a of atts.slice(0, 2)) {
+            if (!lineup.includes(a.id)) lineup.push(a.id);
+        }
 
         // Fill remaining spots if needed
         if (lineup.length < 11) {

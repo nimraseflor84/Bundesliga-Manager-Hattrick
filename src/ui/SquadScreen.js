@@ -47,7 +47,7 @@ export class SquadScreen extends Screen {
                 <tr style="${rowStyle}">
                     <td>${lineupMarker}</td>
                     <td>${p.name}${isInjured ? ' <span style="color: var(--text-red);">[V]</span>' : ''}</td>
-                    <td>${p.position}</td>
+                    <td>${p.position}${p.secondaryPosition ? '/' + p.secondaryPosition : ''}</td>
                     <td class="num">${p.age}</td>
                     <td class="num" style="color: var(--text-bright);">${p.overall}</td>
                     <td class="num">${p.speed}</td>

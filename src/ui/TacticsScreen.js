@@ -203,7 +203,7 @@ export class TacticsScreen extends Screen {
                         return `
                             <tr data-bench-player="${p.id}" style="cursor: pointer;">
                                 <td style="color: var(--text-bright);">${p.shortName}</td>
-                                <td style="color: var(--text-cyan);">${p.position}</td>
+                                <td style="color: var(--text-cyan);">${p.position}${p.secondaryPosition ? '/' + p.secondaryPosition : ''}</td>
                                 <td class="num" style="color: ${overallColor};">${p.overall}</td>
                                 <td class="num" style="color: ${fitnessColor};">${p.fitness}</td>
                                 <td style="color: ${statusColor}; font-size: 0.5rem;">${statusText}</td>
@@ -254,7 +254,7 @@ export class TacticsScreen extends Screen {
                     const player = gameState.getPlayer(this._selectedBenchPlayerId);
                     const slotRole = formation.slots[slotIndex].role;
 
-                    if (player && isPositionCompatible(player.position, slotRole)) {
+                    if (player && isPositionCompatible(player.position, slotRole, player.secondaryPosition)) {
                         // Remove any existing player in this slot
                         const newLineup = [...lineupIds];
                         while (newLineup.length <= slotIndex) {
@@ -272,7 +272,8 @@ export class TacticsScreen extends Screen {
                         const msgEl = this._el.querySelector('#assignment-message');
                         if (msgEl) {
                             msgEl.classList.remove('hidden');
-                            msgEl.textContent = `${player ? player.shortName : 'Spieler'} (${player ? player.position : '?'}) passt nicht auf Position ${slotRole}!`;
+                            const posLabel = player ? (player.secondaryPosition ? player.position + '/' + player.secondaryPosition : player.position) : '?';
+                            msgEl.textContent = `${player ? player.shortName : 'Spieler'} (${posLabel}) passt nicht auf Position ${slotRole}!`;
                             msgEl.style.color = 'var(--text-red)';
                             msgEl.style.borderColor = 'var(--text-red)';
                         }
@@ -313,7 +314,8 @@ export class TacticsScreen extends Screen {
                     msgEl.classList.remove('hidden');
                     msgEl.style.color = 'var(--text-cyan)';
                     msgEl.style.borderColor = 'var(--text-cyan)';
-                    msgEl.textContent = `${player.shortName} (${player.position}) ausgewaehlt. Klicke auf eine kompatible Position im Spielfeld.`;
+                    const benchPosLabel = player.secondaryPosition ? player.position + '/' + player.secondaryPosition : player.position;
+                    msgEl.textContent = `${player.shortName} (${benchPosLabel}) ausgewaehlt. Klicke auf eine kompatible Position im Spielfeld.`;
                 }
 
                 // Highlight compatible slots on the pitch
@@ -321,7 +323,7 @@ export class TacticsScreen extends Screen {
                 this._el.querySelectorAll('.pitch-slot').forEach(slotEl => {
                     const slotIndex = parseInt(slotEl.dataset.slotIndex, 10);
                     const slotRole = slots[slotIndex].role;
-                    if (isPositionCompatible(player.position, slotRole)) {
+                    if (isPositionCompatible(player.position, slotRole, player.secondaryPosition)) {
                         slotEl.style.borderColor = 'var(--text-cyan)';
                         slotEl.style.borderWidth = '2px';
                         slotEl.style.boxShadow = '0 0 6px var(--text-cyan)';

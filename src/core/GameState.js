@@ -30,10 +30,11 @@ class GameStateManager {
     /**
      * Create a fresh game state for a new game.
      */
-    createNewGame(teamId, teams, allPlayers) {
+    createNewGame(teamId, teams, allPlayers, managerName) {
         return {
             version: 2,
             season: '2025/26',
+            managerName: managerName || 'Manager',
             playerTeamId: teamId,
             currentMatchday: 0,
             transferWindow: 'closed', // 'summer', 'winter', 'closed'

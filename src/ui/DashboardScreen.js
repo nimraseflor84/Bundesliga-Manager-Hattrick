@@ -66,7 +66,7 @@ export class DashboardScreen extends Screen {
                 <div class="dos-window">
                     <div class="dos-window-title">BUERO - ${team.name.toUpperCase()}</div>
                     <div class="dos-window-content">
-                        <h1>Willkommen, Manager!</h1>
+                        <h1>Willkommen, ${state.managerName || 'Manager'}!</h1>
                         <div style="color: var(--text-primary);">
                             Saison ${state.season} | Spieltag ${currentMD}/${totalMD} |
                             Tabellenplatz: <span style="color: var(--text-yellow);">${position}.</span>

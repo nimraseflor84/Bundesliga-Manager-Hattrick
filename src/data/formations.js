@@ -152,7 +152,7 @@ export const formations = {
 /**
  * Check if a player's position is compatible with a formation slot role.
  */
-export function isPositionCompatible(playerPos, slotRole) {
+export function isPositionCompatible(playerPos, slotRole, secondaryPos = null) {
     // Exact match
     if (playerPos === slotRole) return true;
 
@@ -172,5 +172,9 @@ export function isPositionCompatible(playerPos, slotRole) {
         'ST': ['ST', 'LA', 'RA', 'ZOM'],
     };
 
-    return (groups[slotRole] || []).includes(playerPos);
+    const compatible = groups[slotRole] || [];
+    if (compatible.includes(playerPos)) return true;
+    if (secondaryPos && compatible.includes(secondaryPos)) return true;
+
+    return false;
 }

@@ -1,0 +1,121 @@
+/* === Reset & Base Layout === */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.4;
+    overflow-x: hidden;
+}
+
+#app {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 8px;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* === Utility Grid === */
+.grid {
+    display: grid;
+    gap: 8px;
+}
+
+.grid-2 { grid-template-columns: 1fr 1fr; }
+.grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+.flex {
+    display: flex;
+    gap: 8px;
+}
+
+.flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.flex-wrap { flex-wrap: wrap; }
+.flex-1 { flex: 1; }
+
+/* === Spacing === */
+.mt-1 { margin-top: 4px; }
+.mt-2 { margin-top: 8px; }
+.mt-3 { margin-top: 16px; }
+.mb-1 { margin-bottom: 4px; }
+.mb-2 { margin-bottom: 8px; }
+.mb-3 { margin-bottom: 16px; }
+.p-1 { padding: 4px; }
+.p-2 { padding: 8px; }
+.p-3 { padding: 16px; }
+
+/* === Text === */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-small { font-size: 0.85rem; }
+.text-large { font-size: 1.2rem; }
+.text-success { color: var(--text-green); }
+.text-danger { color: var(--text-red); }
+.text-warning { color: var(--text-yellow); }
+.text-muted { color: var(--text-muted); }
+
+/* === Hidden === */
+.hidden { display: none !important; }
+
+/* === Mobile: Safe areas for notch/home indicator === */
+body {
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+/* === Touch-friendly: prevent text selection, enable smooth scroll === */
+body {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* === Horizontal scroll for wide tables on mobile === */
+.table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* === Scrollbar === */
+::-webkit-scrollbar {
+    width: 16px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-medium);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-light);
+    border: 2px solid var(--bg-medium);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}

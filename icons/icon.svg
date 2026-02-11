@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#0a0a2e"/>
+  <rect x="16" y="16" width="480" height="480" rx="8" fill="#000080" stroke="#aaa" stroke-width="4"/>
+  <!-- Football pitch -->
+  <rect x="80" y="120" width="352" height="272" fill="#1a5a1a" stroke="#55ff55" stroke-width="3"/>
+  <line x1="256" y1="120" x2="256" y2="392" stroke="#55ff55" stroke-width="2" opacity="0.5"/>
+  <circle cx="256" cy="256" r="40" fill="none" stroke="#55ff55" stroke-width="2" opacity="0.5"/>
+  <!-- Ball -->
+  <circle cx="256" cy="256" r="18" fill="#fff"/>
+  <path d="M244 248 l8-10 16 0 8 10-4 14-12 4-12-4z" fill="#333"/>
+  <!-- Title text BMH -->
+  <text x="256" y="76" text-anchor="middle" font-family="monospace" font-weight="bold" font-size="52" fill="#55ff55">B M H</text>
+  <!-- Subtitle -->
+  <text x="256" y="440" text-anchor="middle" font-family="monospace" font-size="24" fill="#ffff55">HATTRICK</text>
+  <!-- Stars -->
+  <text x="140" y="474" text-anchor="middle" font-family="monospace" font-size="20" fill="#ffff55">★</text>
+  <text x="256" y="474" text-anchor="middle" font-family="monospace" font-size="14" fill="#aaa">2025/26</text>
+  <text x="372" y="474" text-anchor="middle" font-family="monospace" font-size="20" fill="#ffff55">★</text>
+</svg>

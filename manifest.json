@@ -1,0 +1,31 @@
+{
+  "name": "Bundesliga Manager Hattrick",
+  "short_name": "BM Hattrick",
+  "description": "Bundesliga Manager Simulation im Retro-DOS-Stil - Saison 2025/26",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0a2e",
+  "theme_color": "#000080",
+  "lang": "de",
+  "categories": ["games", "sports"],
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

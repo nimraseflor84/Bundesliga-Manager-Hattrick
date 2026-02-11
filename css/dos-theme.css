@@ -1,0 +1,532 @@
+/* === DOS Color Palette === */
+:root {
+    --bg-dark: #0a0a2e;
+    --bg-medium: #000080;
+    --bg-light: #0000aa;
+    --bg-highlight: #1a1a4e;
+
+    --border-dark: #000040;
+    --border-light: #aaaaaa;
+    --border-highlight: #ffffff;
+
+    --text-primary: #aaaaaa;
+    --text-bright: #ffffff;
+    --text-green: #55ff55;
+    --text-red: #ff5555;
+    --text-yellow: #ffff55;
+    --text-cyan: #55ffff;
+    --text-muted: #555555;
+
+    --btn-face: #aaaaaa;
+    --btn-highlight: #ffffff;
+    --btn-shadow: #555555;
+
+    --font-heading: 'Press Start 2P', monospace;
+    --font-body: 'VT323', 'Courier New', monospace;
+}
+
+/* === Font Loading === */
+@font-face {
+    font-family: 'Press Start 2P';
+    src: url('../fonts/PressStart2P-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'VT323';
+    src: url('../fonts/VT323-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* === DOS Window === */
+.dos-window {
+    background: var(--bg-medium);
+    border: 2px solid;
+    border-color: var(--border-highlight) var(--border-dark) var(--border-dark) var(--border-highlight);
+    margin-bottom: 8px;
+}
+
+.dos-window-title {
+    background: var(--bg-light);
+    color: var(--text-bright);
+    font-family: var(--font-heading);
+    font-size: 0.65rem;
+    padding: 4px 8px;
+    letter-spacing: 1px;
+    border-bottom: 2px solid var(--border-dark);
+    user-select: none;
+}
+
+.dos-window-content {
+    padding: 8px;
+}
+
+/* === DOS Buttons === */
+.dos-btn {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    color: #000000;
+    background: var(--btn-face);
+    border: 2px solid;
+    border-color: var(--btn-highlight) var(--btn-shadow) var(--btn-shadow) var(--btn-highlight);
+    padding: 4px 12px;
+    cursor: pointer;
+    outline: none;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.dos-btn:hover {
+    background: #cccccc;
+}
+
+.dos-btn:active {
+    border-color: var(--btn-shadow) var(--btn-highlight) var(--btn-highlight) var(--btn-shadow);
+    padding: 5px 11px 3px 13px;
+}
+
+.dos-btn-primary {
+    background: var(--text-green);
+    color: #000000;
+}
+
+.dos-btn-primary:hover {
+    background: #77ff77;
+}
+
+.dos-btn-danger {
+    background: var(--text-red);
+    color: #000000;
+}
+
+.dos-btn-danger:hover {
+    background: #ff7777;
+}
+
+.dos-btn-small {
+    font-size: 0.9rem;
+    padding: 2px 8px;
+}
+
+.dos-btn:disabled {
+    background: #666666;
+    color: #333333;
+    cursor: not-allowed;
+    border-color: #888888 #444444 #444444 #888888;
+}
+
+/* === DOS Table === */
+.dos-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-body);
+    font-size: 1rem;
+}
+
+.dos-table th {
+    background: var(--bg-light);
+    color: var(--text-yellow);
+    font-weight: normal;
+    text-align: left;
+    padding: 4px 6px;
+    border-bottom: 2px solid var(--border-light);
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.dos-table td {
+    padding: 3px 6px;
+    border-bottom: 1px solid var(--border-dark);
+    white-space: nowrap;
+}
+
+.dos-table tr:hover td {
+    background: var(--bg-highlight);
+}
+
+.dos-table tr.highlight td {
+    color: var(--text-green);
+    background: var(--bg-highlight);
+}
+
+.dos-table tr.relegation td {
+    color: var(--text-red);
+}
+
+.dos-table tr.relegation-playoff td {
+    color: var(--text-yellow);
+}
+
+.dos-table .num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+/* === Headings === */
+h1, h2, h3 {
+    font-family: var(--font-heading);
+    color: var(--text-bright);
+    letter-spacing: 1px;
+}
+
+h1 { font-size: 1rem; margin-bottom: 12px; }
+h2 { font-size: 0.75rem; margin-bottom: 8px; }
+h3 { font-size: 0.65rem; margin-bottom: 6px; }
+
+/* === Navigation Bar === */
+.nav-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    padding: 4px;
+    background: var(--bg-dark);
+    border: 2px solid;
+    border-color: var(--border-highlight) var(--border-dark) var(--border-dark) var(--border-highlight);
+    margin-bottom: 8px;
+}
+
+.nav-btn {
+    font-family: var(--font-heading);
+    font-size: 0.5rem;
+    color: var(--text-primary);
+    background: var(--bg-medium);
+    border: 1px solid;
+    border-color: var(--border-light) var(--border-dark) var(--border-dark) var(--border-light);
+    padding: 6px 10px;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+}
+
+.nav-btn:hover {
+    background: var(--bg-light);
+    color: var(--text-bright);
+}
+
+.nav-btn.active {
+    background: var(--bg-light);
+    color: var(--text-green);
+    border-color: var(--text-green);
+}
+
+/* === Status Bar === */
+.status-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 8px;
+    background: var(--bg-medium);
+    border: 2px solid;
+    border-color: var(--border-dark) var(--border-highlight) var(--border-highlight) var(--border-dark);
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    margin-top: 8px;
+}
+
+.status-bar span {
+    display: inline-block;
+}
+
+/* === Scanline Overlay === */
+.scanlines::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.08) 2px,
+        rgba(0, 0, 0, 0.08) 4px
+    );
+}
+
+/* === Title Screen === */
+.title-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    text-align: center;
+}
+
+.title-ascii {
+    font-family: var(--font-heading);
+    color: var(--text-green);
+    font-size: 0.55rem;
+    line-height: 1.3;
+    white-space: pre;
+    margin-bottom: 24px;
+}
+
+.title-subtitle {
+    font-family: var(--font-heading);
+    color: var(--text-yellow);
+    font-size: 0.6rem;
+    margin-bottom: 32px;
+    letter-spacing: 2px;
+}
+
+.blink {
+    animation: blink 1.2s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* === Team Selection Grid === */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+}
+
+.team-card {
+    background: var(--bg-medium);
+    border: 2px solid var(--border-dark);
+    padding: 8px;
+    cursor: pointer;
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    transition: none;
+}
+
+.team-card:hover {
+    border-color: var(--text-cyan);
+    color: var(--text-bright);
+    background: var(--bg-highlight);
+}
+
+.team-card.selected {
+    border-color: var(--text-green);
+    color: var(--text-green);
+    background: var(--bg-highlight);
+}
+
+.team-card-strength {
+    font-size: 0.8rem;
+    color: var(--text-yellow);
+    margin-top: 2px;
+}
+
+/* === Dashboard Panels === */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.dashboard-grid .dos-window {
+    margin-bottom: 0;
+}
+
+/* === Match Day === */
+.match-results {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2px;
+}
+
+.match-result-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 8px;
+    padding: 4px 8px;
+    align-items: center;
+    font-family: var(--font-body);
+}
+
+.match-result-row .home {
+    text-align: right;
+}
+
+.match-result-row .score {
+    color: var(--text-bright);
+    font-size: 1.1rem;
+    min-width: 50px;
+    text-align: center;
+}
+
+.match-result-row.user-match {
+    background: var(--bg-highlight);
+    color: var(--text-green);
+}
+
+/* === Fixture List === */
+.fixture-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 8px;
+    padding: 3px 8px;
+    align-items: center;
+}
+
+.fixture-row .home {
+    text-align: right;
+}
+
+.fixture-row .vs {
+    color: var(--text-muted);
+    min-width: 30px;
+    text-align: center;
+}
+
+/* === Animations === */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+/* === Responsive: Tablet === */
+@media (max-width: 768px) {
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .dos-table {
+        font-size: 0.9rem;
+    }
+
+    .dos-table th, .dos-table td {
+        padding: 4px 4px;
+    }
+}
+
+/* === Responsive: Mobile === */
+@media (max-width: 600px) {
+    #app {
+        padding: 4px;
+    }
+
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .team-card {
+        padding: 10px 4px;
+        font-size: 0.85rem;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Nav: scrollable row on mobile */
+    .nav-bar {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 4px 2px;
+        gap: 3px;
+    }
+
+    .nav-btn {
+        font-size: 0.4rem;
+        padding: 6px 6px;
+        flex-shrink: 0;
+        min-height: 32px;
+    }
+
+    /* Bigger touch targets for buttons */
+    .dos-btn {
+        min-height: 40px;
+        padding: 8px 12px;
+        font-size: 1rem;
+    }
+
+    .dos-btn-small {
+        min-height: 32px;
+        padding: 4px 8px;
+        font-size: 0.85rem;
+    }
+
+    /* Tables: smaller text, tighter spacing */
+    .dos-table {
+        font-size: 0.8rem;
+    }
+
+    .dos-table th, .dos-table td {
+        padding: 3px 3px;
+    }
+
+    /* Headings smaller */
+    h1 { font-size: 0.7rem; }
+    h2 { font-size: 0.55rem; }
+    h3 { font-size: 0.5rem; }
+
+    /* Title screen adjustments */
+    .title-ascii {
+        font-size: 0.3rem;
+        line-height: 1.2;
+    }
+
+    .title-subtitle {
+        font-size: 0.45rem;
+    }
+
+    /* DOS window tighter */
+    .dos-window-content {
+        padding: 6px;
+    }
+
+    .dos-window-title {
+        font-size: 0.5rem;
+        padding: 3px 6px;
+    }
+
+    /* Status bar */
+    .status-bar {
+        font-size: 0.8rem;
+        padding: 4px 6px;
+        flex-wrap: wrap;
+    }
+
+    /* Match results */
+    .match-result-row {
+        font-size: 0.85rem;
+        padding: 4px 4px;
+    }
+
+    /* Scanlines thinner on mobile for readability */
+    .scanlines::after {
+        background: repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 3px,
+            rgba(0, 0, 0, 0.05) 3px,
+            rgba(0, 0, 0, 0.05) 6px
+        );
+    }
+}
+
+/* === Responsive: Small phones === */
+@media (max-width: 380px) {
+    .team-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .title-ascii {
+        font-size: 0.22rem;
+    }
+
+    .nav-btn {
+        font-size: 0.35rem;
+        padding: 5px 4px;
+    }
+}

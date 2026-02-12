@@ -11,6 +11,7 @@ import { TacticsScreen } from './src/ui/TacticsScreen.js';
 import { FinancesScreen } from './src/ui/FinancesScreen.js';
 import { StadiumScreen } from './src/ui/StadiumScreen.js';
 import { TransferScreen } from './src/ui/TransferScreen.js';
+import { TrainingScreen } from './src/ui/TrainingScreen.js';
 
 // Register all screens
 router.register('#title', new TitleScreen());
@@ -24,6 +25,7 @@ router.register('#tactics', new TacticsScreen());
 router.register('#finances', new FinancesScreen());
 router.register('#stadium', new StadiumScreen());
 router.register('#transfers', new TransferScreen());
+router.register('#training', new TrainingScreen());
 
 // Initialize
 const appEl = document.getElementById('app');

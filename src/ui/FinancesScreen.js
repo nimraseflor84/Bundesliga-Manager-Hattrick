@@ -139,6 +139,7 @@ export class FinancesScreen extends Screen {
             { hash: '#dashboard', label: 'BUERO' },
             { hash: '#squad', label: 'KADER' },
             { hash: '#tactics', label: 'AUFSTELLUNG' },
+            { hash: '#training', label: 'TRAINING' },
             { hash: '#table', label: 'TABELLE' },
             { hash: '#fixtures', label: 'SPIELPLAN' },
             { hash: '#finances', label: 'FINANZEN' },

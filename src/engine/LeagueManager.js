@@ -4,6 +4,7 @@ import { MatchEngine } from './MatchEngine.js';
 import { Calendar } from './Calendar.js';
 import { saveManager } from '../core/SaveManager.js';
 import { FinanceEngine } from './FinanceEngine.js';
+import { TrainingEngine } from './TrainingEngine.js';
 
 export class LeagueManager {
     static initSeason() {
@@ -155,6 +156,9 @@ export class LeagueManager {
 
         // Process finances for matchday
         FinanceEngine.processMatchday(mdIndex + 1);
+
+        // Reset training flags for new matchday
+        TrainingEngine.resetTrainingFlags();
 
         // Transfer window logic
         if (mdIndex + 1 === 1) gameState.update('transferWindow', 'summer');

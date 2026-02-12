@@ -491,6 +491,324 @@ class AudioManagerClass {
         this._crowdGain.gain.linearRampToValueAtTime(0.12, t + 2.0);
     }
 
+    // --- Music: Match Music ("Song 2" - Blur, 8-Bit Recreation) ---
+
+    startMatchMusic() {
+        if (!this._ensureContext()) return;
+        this.stopMusic();
+
+        // "Song 2" by Blur — 8-Bit Recreation
+        // Key: E major, ~130 BPM
+        const bpm = 130;
+        const beat = 60 / bpm;        // ~0.462s per beat
+        const sx = beat / 4;           // sixteenth note ~0.115s
+        const eighth = beat / 2;
+
+        // Note frequencies (Hz)
+        const E2 = 82.41, B2 = 123.47, E3 = 164.81, Gs3 = 207.65, A3 = 220.00, B3 = 246.94;
+        const E4 = 329.63, Gs4 = 415.30, A4 = 440.00, B4 = 493.88;
+        const E5 = 659.26, Gs5 = 830.61, B5 = 987.77;
+
+        // Song structure per loop (16 bars = 64 beats = 256 sixteenths)
+        // Bars 1-4: Quiet verse riff (palm-muted power chords, E5)
+        // Bars 5-8: Building verse (add melody, A5-B5-E5)
+        // Bars 9-10: "WOO-HOO!" break (loud E power chord + octave jump)
+        // Bars 11-14: Chorus riff (E5-A5-B5-E5 power chords, full energy)
+        // Bars 15-16: Transition back
+
+        const melody = [];     // Square wave - lead/guitar
+        const bass = [];       // Triangle wave - bass
+        const drums = [];      // Noise - kick/snare pattern
+
+        // === VERSE RIFF (Bars 1-4, sx 0-63): Staccato E power chord pulses ===
+        for (let bar = 0; bar < 4; bar++) {
+            const barStart = bar * 16;
+            // Syncopated 8th-note guitar stabs on E5 power chord
+            melody.push([E4, barStart + 0, 2, 0.08]);
+            melody.push([E4, barStart + 3, 1, 0.06]);
+            melody.push([E4, barStart + 6, 2, 0.08]);
+            melody.push([E4, barStart + 8, 2, 0.08]);
+            melody.push([E4, barStart + 11, 1, 0.06]);
+            melody.push([E4, barStart + 14, 2, 0.08]);
+            // Bass: steady 8th notes on E
+            for (let i = 0; i < 16; i += 2) {
+                bass.push([E2, barStart + i, 2, 0.14]);
+            }
+        }
+
+        // === BUILDING VERSE (Bars 5-8, sx 64-127): A5-B5-E5 progression ===
+        // Bar 5-6: A power chord
+        for (let bar = 0; bar < 2; bar++) {
+            const barStart = 64 + bar * 16;
+            melody.push([A4, barStart + 0, 3, 0.10]);
+            melody.push([A4, barStart + 4, 2, 0.08]);
+            melody.push([A4, barStart + 8, 3, 0.10]);
+            melody.push([A4, barStart + 12, 2, 0.08]);
+            melody.push([E5, barStart + 14, 2, 0.10]);
+            for (let i = 0; i < 16; i += 2) {
+                bass.push([A3, barStart + i, 2, 0.14]);
+            }
+        }
+        // Bar 7: B power chord
+        {
+            const barStart = 96;
+            melody.push([B4, barStart + 0, 3, 0.10]);
+            melody.push([B4, barStart + 4, 2, 0.08]);
+            melody.push([B4, barStart + 8, 3, 0.10]);
+            melody.push([B4, barStart + 12, 4, 0.12]);
+            for (let i = 0; i < 16; i += 2) {
+                bass.push([B3, barStart + i, 2, 0.14]);
+            }
+        }
+        // Bar 8: Build-up — rapid 16th note hits ascending to E5
+        {
+            const barStart = 112;
+            const buildNotes = [E4, E4, Gs4, Gs4, A4, A4, B4, B4, E5, E5, E5, E5, E5, E5, E5, E5];
+            for (let i = 0; i < 16; i++) {
+                melody.push([buildNotes[i], barStart + i, 1, 0.06 + i * 0.005]);
+            }
+            for (let i = 0; i < 16; i += 2) {
+                bass.push([E3, barStart + i, 2, 0.16]);
+            }
+        }
+
+        // === "WOO-HOO!" BREAK (Bars 9-10, sx 128-159): Big E5 power chord ===
+        // Bar 9: WOOOO — sustained high E chord
+        {
+            const barStart = 128;
+            melody.push([E5, barStart + 0, 8, 0.16]);   // "WOOO" - long sustained note
+            melody.push([B5, barStart + 0, 8, 0.10]);   // octave harmony
+            melody.push([E5, barStart + 8, 4, 0.14]);   // "-HOO!"
+            melody.push([Gs5, barStart + 8, 4, 0.08]);  // harmony
+            melody.push([E5, barStart + 12, 4, 0.12]);  // tail
+            for (let i = 0; i < 16; i += 2) {
+                bass.push([E2, barStart + i, 2, 0.18]);
+            }
+        }
+        // Bar 10: Second "WOO-HOO!" + power chord stab
+        {
+            const barStart = 144;
+            melody.push([E5, barStart + 0, 6, 0.16]);
+            melody.push([B5, barStart + 0, 6, 0.10]);
+            melody.push([E5, barStart + 6, 4, 0.14]);
+            melody.push([Gs5, barStart + 6, 4, 0.08]);
+            // Aggressive stabs
+            melody.push([E4, barStart + 12, 2, 0.14]);
+            melody.push([E4, barStart + 14, 2, 0.14]);
+            for (let i = 0; i < 16; i += 2) {
+                bass.push([E2, barStart + i, 2, 0.18]);
+            }
+        }
+
+        // === CHORUS RIFF (Bars 11-14, sx 160-223): E-A-B-E power chord progression ===
+        const chorusChords = [
+            { note: E4, bassNote: E2, highNote: E5 },
+            { note: A4, bassNote: A3, highNote: E5 },
+            { note: B4, bassNote: B3, highNote: Gs5 },
+            { note: E4, bassNote: E2, highNote: E5 },
+        ];
+        for (let bar = 0; bar < 4; bar++) {
+            const barStart = 160 + bar * 16;
+            const chord = chorusChords[bar];
+            // Driving 8th-note power chords
+            for (let i = 0; i < 16; i += 2) {
+                melody.push([chord.note, barStart + i, 2, 0.12]);
+                if (i % 4 === 0) {
+                    melody.push([chord.highNote, barStart + i, 2, 0.06]);
+                }
+            }
+            for (let i = 0; i < 16; i += 2) {
+                bass.push([chord.bassNote, barStart + i, 2, 0.16]);
+            }
+        }
+
+        // === TRANSITION (Bars 15-16, sx 224-255): Wind down back to verse ===
+        // Bar 15: E power chord decrescendo
+        {
+            const barStart = 224;
+            for (let i = 0; i < 16; i += 2) {
+                const vol = 0.12 - i * 0.005;
+                melody.push([E4, barStart + i, 2, Math.max(0.04, vol)]);
+            }
+            for (let i = 0; i < 16; i += 2) {
+                bass.push([E2, barStart + i, 2, 0.14]);
+            }
+        }
+        // Bar 16: Pickup back into verse
+        {
+            const barStart = 240;
+            melody.push([E4, barStart + 0, 2, 0.06]);
+            melody.push([E4, barStart + 4, 2, 0.06]);
+            melody.push([Gs4, barStart + 8, 2, 0.06]);
+            melody.push([B4, barStart + 12, 4, 0.08]);
+            for (let i = 0; i < 16; i += 4) {
+                bass.push([E2, barStart + i, 4, 0.12]);
+            }
+        }
+
+        // === DRUM PATTERN (entire loop: 256 sixteenths) ===
+        // Verse drums (bars 1-8): simple kick-snare
+        for (let bar = 0; bar < 8; bar++) {
+            const barStart = bar * 16;
+            drums.push([barStart + 0, 'kick', 0.15]);
+            drums.push([barStart + 4, 'snare', 0.10]);
+            drums.push([barStart + 8, 'kick', 0.15]);
+            drums.push([barStart + 12, 'snare', 0.10]);
+            // Hi-hat on 8ths
+            for (let i = 0; i < 16; i += 2) {
+                drums.push([barStart + i, 'hat', 0.04]);
+            }
+        }
+        // Chorus drums (bars 9-14): heavier, more fills
+        for (let bar = 8; bar < 14; bar++) {
+            const barStart = bar * 16;
+            drums.push([barStart + 0, 'kick', 0.20]);
+            drums.push([barStart + 2, 'kick', 0.12]);
+            drums.push([barStart + 4, 'snare', 0.16]);
+            drums.push([barStart + 8, 'kick', 0.20]);
+            drums.push([barStart + 10, 'kick', 0.12]);
+            drums.push([barStart + 12, 'snare', 0.16]);
+            drums.push([barStart + 14, 'kick', 0.10]);
+            for (let i = 0; i < 16; i += 2) {
+                drums.push([barStart + i, 'hat', 0.06]);
+            }
+        }
+        // Transition drums (bars 15-16): simple wind-down
+        for (let bar = 14; bar < 16; bar++) {
+            const barStart = bar * 16;
+            drums.push([barStart + 0, 'kick', 0.12]);
+            drums.push([barStart + 4, 'snare', 0.08]);
+            drums.push([barStart + 8, 'kick', 0.12]);
+            drums.push([barStart + 12, 'snare', 0.08]);
+        }
+
+        const loopSixteenths = 256; // 16 bars
+        const loopDuration = loopSixteenths * sx;
+        this._musicLoopTimer = null;
+
+        const scheduleLoop = () => {
+            const now = this._ctx.currentTime + 0.05;
+            const nodes = [];
+
+            // Schedule melody (square wave)
+            for (const [freq, startSx, durSx, vol] of melody) {
+                const s = now + startSx * sx;
+                const dur = durSx * sx;
+                const o = this._ctx.createOscillator();
+                const g = this._ctx.createGain();
+                o.type = 'square';
+                o.frequency.value = freq;
+                g.gain.setValueAtTime(vol, s);
+                g.gain.setValueAtTime(vol, s + dur - 0.02);
+                g.gain.linearRampToValueAtTime(0, s + dur);
+                o.connect(g);
+                g.connect(this._musicGain);
+                o.start(s);
+                o.stop(s + dur + 0.01);
+                nodes.push(o);
+            }
+
+            // Schedule bass (triangle wave)
+            for (const [freq, startSx, durSx, vol] of bass) {
+                const s = now + startSx * sx;
+                const dur = durSx * sx;
+                const o = this._ctx.createOscillator();
+                const g = this._ctx.createGain();
+                o.type = 'triangle';
+                o.frequency.value = freq;
+                g.gain.setValueAtTime(vol, s);
+                g.gain.setValueAtTime(vol, s + dur - 0.02);
+                g.gain.linearRampToValueAtTime(0, s + dur);
+                o.connect(g);
+                g.connect(this._musicGain);
+                o.start(s);
+                o.stop(s + dur + 0.01);
+                nodes.push(o);
+            }
+
+            // Schedule drums (noise-based)
+            for (const [startSx, type, vol] of drums) {
+                const s = now + startSx * sx;
+                const bufLen = type === 'kick' ? 0.08 : type === 'snare' ? 0.06 : 0.03;
+                const buf = this._ctx.createBuffer(1, this._ctx.sampleRate * bufLen, this._ctx.sampleRate);
+                const ch = buf.getChannelData(0);
+                for (let i = 0; i < ch.length; i++) {
+                    ch[i] = (Math.random() * 2 - 1) * (1 - i / ch.length);
+                }
+                const src = this._ctx.createBufferSource();
+                src.buffer = buf;
+                const g = this._ctx.createGain();
+                g.gain.setValueAtTime(vol, s);
+                g.gain.linearRampToValueAtTime(0, s + bufLen);
+
+                if (type === 'kick') {
+                    // Low-pass filter for kick
+                    const lpf = this._ctx.createBiquadFilter();
+                    lpf.type = 'lowpass';
+                    lpf.frequency.value = 200;
+                    src.connect(lpf);
+                    lpf.connect(g);
+                } else if (type === 'snare') {
+                    // Band-pass for snare
+                    const bpf = this._ctx.createBiquadFilter();
+                    bpf.type = 'bandpass';
+                    bpf.frequency.value = 1500;
+                    bpf.Q.value = 1;
+                    src.connect(bpf);
+                    bpf.connect(g);
+                } else {
+                    // Hi-hat: high-pass
+                    const hpf = this._ctx.createBiquadFilter();
+                    hpf.type = 'highpass';
+                    hpf.frequency.value = 6000;
+                    src.connect(hpf);
+                    hpf.connect(g);
+                }
+
+                g.connect(this._musicGain);
+                src.start(s);
+                src.stop(s + bufLen);
+                nodes.push(src);
+            }
+
+            this._currentMusic = nodes;
+            this._musicLoopTimer = setTimeout(() => scheduleLoop(), (loopDuration - 0.1) * 1000);
+        };
+
+        // Also start crowd atmosphere (quieter, mixed underneath)
+        this._startQuietCrowd();
+        scheduleLoop();
+    }
+
+    _startQuietCrowd() {
+        if (!this._ctx) return;
+        const bufferSize = 2 * this._ctx.sampleRate;
+        const noiseBuffer = this._ctx.createBuffer(1, bufferSize, this._ctx.sampleRate);
+        const data = noiseBuffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+            data[i] = Math.random() * 2 - 1;
+        }
+        const noise = this._ctx.createBufferSource();
+        noise.buffer = noiseBuffer;
+        noise.loop = true;
+
+        const bandpass = this._ctx.createBiquadFilter();
+        bandpass.type = 'bandpass';
+        bandpass.frequency.value = 800;
+        bandpass.Q.value = 0.8;
+
+        this._crowdGain = this._ctx.createGain();
+        this._crowdGain.gain.value = 0.06; // Quieter than standalone atmosphere
+
+        noise.connect(bandpass);
+        bandpass.connect(this._crowdGain);
+        this._crowdGain.connect(this._musicGain);
+        noise.start();
+
+        this._crowdNode = noise;
+        this._currentMusic.push(noise);
+    }
+
     // --- Music: Stop ---
 
     stopMusic() {

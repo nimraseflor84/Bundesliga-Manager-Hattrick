@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bmh-v5';
+const CACHE_NAME = 'bmh-v6';
 
 const ASSETS = [
     './',

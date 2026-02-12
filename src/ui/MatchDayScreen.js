@@ -70,15 +70,15 @@ export class MatchDayScreen extends Screen {
                     <div class="dos-window-title">LIVE-TICKER</div>
                     <div class="dos-window-content">
                         <!-- Speed Controls -->
-                        <div id="speed-controls" style="display: flex; gap: 6px; margin-bottom: 8px; align-items: center;">
-                            <span style="color: var(--text-muted); font-size: 0.6rem; margin-right: 4px;">TEMPO:</span>
+                        <div id="speed-controls" class="speed-controls-mobile" style="display: flex; gap: 6px; margin-bottom: 8px; align-items: center;">
+                            <span class="speed-label" style="color: var(--text-muted); font-size: 0.6rem; margin-right: 4px;">TEMPO:</span>
                             <button class="dos-btn dos-btn-small" data-speed="200" id="speed-slow">LANGSAM</button>
                             <button class="dos-btn dos-btn-small dos-btn-primary" data-speed="80" id="speed-normal">NORMAL</button>
                             <button class="dos-btn dos-btn-small" data-speed="30" id="speed-fast">SCHNELL</button>
                         </div>
 
                         <div class="text-center mb-2" id="scoreboard"></div>
-                        <div id="ticker" style="height: 180px; overflow-y: auto; padding: 4px;
+                        <div id="ticker" class="ticker-mobile" style="height: 180px; overflow-y: auto; padding: 4px;
                              background: #000; border: 1px solid var(--border-dark);"></div>
                     </div>
                 </div>
@@ -93,7 +93,7 @@ export class MatchDayScreen extends Screen {
                 <div class="dos-window hidden" id="sub-panel">
                     <div class="dos-window-title" id="sub-title">AUSWECHSLUNGEN (0/${this._maxSubs})</div>
                     <div class="dos-window-content">
-                        <div id="sub-message" style="color: var(--text-cyan); font-size: 0.6rem; margin-bottom: 6px;">
+                        <div id="sub-message" class="sub-message-mobile" style="color: var(--text-cyan); font-size: 0.6rem; margin-bottom: 6px;">
                             Klicke einen Bankspieler, dann einen Aufstellungsspieler zum Wechseln.
                         </div>
                         <div id="sub-lineup" style="margin-bottom: 8px;"></div>
@@ -175,14 +175,14 @@ export class MatchDayScreen extends Screen {
         this._eventIndex = 0;
 
         scoreboard.innerHTML = `
-            <div style="font-size: 1.4rem; color: var(--text-bright);">
+            <div class="scoreboard-mobile" style="font-size: 1.4rem; color: var(--text-bright);">
                 ${homeTeam.shortName}
                 <span id="score-home" style="color: var(--text-green);">0</span>
                 :
                 <span id="score-away" style="color: var(--text-green);">0</span>
                 ${awayTeam.shortName}
             </div>
-            <div id="match-minute" style="color: var(--text-yellow); font-size: 0.9rem;">1'</div>
+            <div id="match-minute" class="match-minute-display" style="color: var(--text-yellow); font-size: 0.9rem;">1'</div>
         `;
 
         ticker.innerHTML = `<div style="color: var(--text-green);">⚽ ANPFIFF! Der Ball rollt!</div>`;
@@ -319,9 +319,9 @@ export class MatchDayScreen extends Screen {
             const barWidth = Math.max(0, Math.min(100, p.fitness));
             return `
                 <tr>
-                    <td style="color: var(--text-bright); font-size: 0.55rem; white-space: nowrap;">${p.shortName}</td>
+                    <td style="color: var(--text-bright); font-size: 0.55rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 80px;">${p.shortName}</td>
                     <td style="color: var(--text-cyan); font-size: 0.55rem;">${p.position}</td>
-                    <td style="width: 80px;">
+                    <td class="fitness-bar-mobile" style="width: 80px;">
                         <div style="background: #222; height: 8px; width: 100%; position: relative;">
                             <div style="background: ${fitnessColor}; height: 100%; width: ${barWidth}%;"></div>
                         </div>
@@ -332,7 +332,7 @@ export class MatchDayScreen extends Screen {
         }).join('');
 
         content.innerHTML = `
-            <table class="dos-table" style="font-size: 0.55rem;">
+            <table class="dos-table fitness-table-mobile" style="font-size: 0.55rem;">
                 <thead>
                     <tr><th>Spieler</th><th>Pos</th><th>Fitness</th><th></th></tr>
                 </thead>
@@ -373,10 +373,10 @@ export class MatchDayScreen extends Screen {
                 .filter(Boolean);
 
             lineupEl.innerHTML = `
-                <div style="font-size: 0.55rem; color: var(--text-yellow); margin-bottom: 4px;">AUFSTELLUNG:</div>
-                <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+                <div class="sub-section-label" style="font-size: 0.55rem; color: var(--text-yellow); margin-bottom: 4px;">AUFSTELLUNG:</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 3px;">
                     ${lineupPlayers.map(p => `
-                        <button class="dos-btn dos-btn-small sub-lineup-player" data-player-id="${p.id}"
+                        <button class="dos-btn dos-btn-small sub-lineup-player sub-btn-mobile" data-player-id="${p.id}"
                                 style="font-size: 0.5rem; padding: 2px 6px;
                                        ${subsLeft <= 0 ? 'opacity: 0.4; pointer-events: none;' : ''}">
                             ${p.shortName} <span style="color: var(--text-cyan);">${p.position}</span>
@@ -405,15 +405,15 @@ export class MatchDayScreen extends Screen {
                 .filter(Boolean);
 
             benchEl.innerHTML = `
-                <div style="font-size: 0.55rem; color: var(--text-yellow); margin-bottom: 4px;">BANK:</div>
+                <div class="sub-section-label" style="font-size: 0.55rem; color: var(--text-yellow); margin-bottom: 4px;">BANK:</div>
                 ${benchPlayers.length === 0
                     ? '<div style="color: var(--text-muted); font-size: 0.55rem;">Keine Spieler auf der Bank.</div>'
-                    : `<div style="display: flex; flex-wrap: wrap; gap: 4px;">
+                    : `<div style="display: flex; flex-wrap: wrap; gap: 3px;">
                         ${benchPlayers.map(p => {
                             const fitnessColor = p.fitness >= 75 ? 'var(--text-green)' : p.fitness >= 50 ? 'var(--text-yellow)' : 'var(--text-red)';
                             const isSelected = this._selectedBenchPlayerId === p.id;
                             return `
-                                <button class="dos-btn dos-btn-small sub-bench-player ${isSelected ? 'dos-btn-primary' : ''}"
+                                <button class="dos-btn dos-btn-small sub-bench-player sub-btn-mobile ${isSelected ? 'dos-btn-primary' : ''}"
                                         data-bench-id="${p.id}"
                                         style="font-size: 0.5rem; padding: 2px 6px;
                                                ${subsLeft <= 0 ? 'opacity: 0.4; pointer-events: none;' : ''}">

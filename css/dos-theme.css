@@ -406,6 +406,11 @@ h3 { font-size: 0.65rem; margin-bottom: 6px; }
     .dos-table th, .dos-table td {
         padding: 4px 4px;
     }
+
+    /* Training cards: 2 columns on tablet */
+    .training-cards-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
 }
 
 /* === Responsive: Mobile === */
@@ -427,42 +432,52 @@ h3 { font-size: 0.65rem; margin-bottom: 6px; }
         grid-template-columns: 1fr;
     }
 
-    /* Nav: scrollable row on mobile */
+    /* Nav: horizontal scroll with compact buttons */
     .nav-bar {
         flex-wrap: nowrap;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
-        padding: 4px 2px;
-        gap: 3px;
+        padding: 3px 2px;
+        gap: 2px;
+        scrollbar-width: none;
+    }
+
+    .nav-bar::-webkit-scrollbar {
+        display: none;
     }
 
     .nav-btn {
-        font-size: 0.4rem;
-        padding: 6px 6px;
+        font-size: 0.38rem;
+        padding: 5px 5px;
         flex-shrink: 0;
-        min-height: 32px;
+        min-height: 28px;
+        letter-spacing: 0;
     }
 
     /* Bigger touch targets for buttons */
     .dos-btn {
-        min-height: 40px;
-        padding: 8px 12px;
-        font-size: 1rem;
+        min-height: 38px;
+        padding: 6px 10px;
+        font-size: 0.95rem;
     }
 
     .dos-btn-small {
-        min-height: 32px;
-        padding: 4px 8px;
-        font-size: 0.85rem;
+        min-height: 28px;
+        padding: 3px 6px;
+        font-size: 0.75rem;
     }
 
     /* Tables: smaller text, tighter spacing */
     .dos-table {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
     }
 
     .dos-table th, .dos-table td {
-        padding: 3px 3px;
+        padding: 2px 2px;
+    }
+
+    .dos-table th {
+        font-size: 0.65rem;
     }
 
     /* Headings smaller */
@@ -482,25 +497,137 @@ h3 { font-size: 0.65rem; margin-bottom: 6px; }
 
     /* DOS window tighter */
     .dos-window-content {
-        padding: 6px;
+        padding: 5px;
     }
 
     .dos-window-title {
-        font-size: 0.5rem;
-        padding: 3px 6px;
+        font-size: 0.45rem;
+        padding: 3px 5px;
     }
 
     /* Status bar */
     .status-bar {
-        font-size: 0.8rem;
-        padding: 4px 6px;
+        font-size: 0.75rem;
+        padding: 3px 5px;
         flex-wrap: wrap;
+        gap: 4px;
     }
 
     /* Match results */
     .match-result-row {
-        font-size: 0.85rem;
-        padding: 4px 4px;
+        font-size: 0.8rem;
+        padding: 3px 3px;
+        gap: 4px;
+    }
+
+    .match-result-row .score {
+        font-size: 0.95rem;
+        min-width: 40px;
+    }
+
+    /* === Match Day: Speed Controls === */
+    .speed-controls-mobile {
+        gap: 3px !important;
+        flex-wrap: wrap;
+    }
+
+    .speed-controls-mobile .dos-btn-small {
+        font-size: 0.65rem !important;
+        padding: 4px 8px !important;
+        min-height: 30px;
+    }
+
+    .speed-controls-mobile .speed-label {
+        font-size: 0.5rem !important;
+        display: block;
+        width: 100%;
+        margin-bottom: 2px;
+    }
+
+    /* === Match Day: Scoreboard === */
+    .scoreboard-mobile {
+        font-size: 1.1rem !important;
+    }
+
+    .scoreboard-mobile .match-minute-display {
+        font-size: 0.75rem !important;
+    }
+
+    /* === Match Day: Ticker === */
+    .ticker-mobile {
+        height: 140px !important;
+        font-size: 0.7rem;
+    }
+
+    .ticker-mobile div {
+        font-size: 0.7rem !important;
+        padding: 1px 0;
+    }
+
+    /* === Match Day: Fitness Panel === */
+    .fitness-table-mobile td {
+        font-size: 0.5rem !important;
+        padding: 1px 2px !important;
+    }
+
+    .fitness-table-mobile th {
+        font-size: 0.45rem !important;
+        padding: 1px 2px !important;
+    }
+
+    .fitness-bar-mobile {
+        width: 50px !important;
+    }
+
+    /* === Match Day: Substitution Panel === */
+    .sub-btn-mobile {
+        font-size: 0.45rem !important;
+        padding: 3px 5px !important;
+        min-height: 26px !important;
+    }
+
+    .sub-section-label {
+        font-size: 0.5rem !important;
+    }
+
+    .sub-message-mobile {
+        font-size: 0.5rem !important;
+    }
+
+    /* === Training: Table === */
+    .training-table-scroll {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 0 -5px;
+        padding: 0 5px;
+    }
+
+    /* Hide less important columns on mobile */
+    .training-table-mobile .col-hide-mobile {
+        display: none;
+    }
+
+    .training-table-mobile td,
+    .training-table-mobile th {
+        font-size: 0.65rem;
+        padding: 3px 2px;
+    }
+
+    /* === Training: Cards === */
+    .training-cards-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .training-card-mobile {
+        padding: 6px !important;
+    }
+
+    .training-card-mobile .card-title {
+        font-size: 0.65rem !important;
+    }
+
+    .training-card-mobile .card-detail {
+        font-size: 0.5rem !important;
     }
 
     /* Scanlines thinner on mobile for readability */
@@ -526,7 +653,47 @@ h3 { font-size: 0.65rem; margin-bottom: 6px; }
     }
 
     .nav-btn {
-        font-size: 0.35rem;
-        padding: 5px 4px;
+        font-size: 0.32rem;
+        padding: 4px 3px;
+        min-height: 26px;
+    }
+
+    .dos-table {
+        font-size: 0.65rem;
+    }
+
+    .dos-table th {
+        font-size: 0.55rem;
+    }
+
+    /* Even more compact for small phones */
+    .speed-controls-mobile .dos-btn-small {
+        font-size: 0.55rem !important;
+        padding: 3px 6px !important;
+    }
+
+    .ticker-mobile {
+        height: 120px !important;
+    }
+
+    .ticker-mobile div {
+        font-size: 0.6rem !important;
+    }
+
+    .scoreboard-mobile {
+        font-size: 0.95rem !important;
+    }
+
+    .sub-btn-mobile {
+        font-size: 0.4rem !important;
+        padding: 2px 4px !important;
+    }
+
+    .training-card-mobile .card-title {
+        font-size: 0.55rem !important;
+    }
+
+    .training-card-mobile .card-detail {
+        font-size: 0.45rem !important;
     }
 }

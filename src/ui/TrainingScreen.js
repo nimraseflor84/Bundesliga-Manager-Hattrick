@@ -49,17 +49,18 @@ export class TrainingScreen extends Screen {
                             </span>
                         </div>
 
-                        <table class="dos-table" id="training-players">
+                        <div class="training-table-scroll">
+                        <table class="dos-table training-table-mobile" id="training-players">
                             <thead>
                                 <tr>
                                     <th>Name</th>
                                     <th>Pos</th>
                                     <th class="num">GES</th>
-                                    <th class="num">SPD</th>
-                                    <th class="num">SCH</th>
-                                    <th class="num">PAS</th>
-                                    <th class="num">DEF</th>
-                                    <th class="num">TW</th>
+                                    <th class="num col-hide-mobile">SPD</th>
+                                    <th class="num col-hide-mobile">SCH</th>
+                                    <th class="num col-hide-mobile">PAS</th>
+                                    <th class="num col-hide-mobile">DEF</th>
+                                    <th class="num col-hide-mobile">TW</th>
                                     <th class="num">FIT</th>
                                     <th class="num">MOR</th>
                                     <th>Status</th>
@@ -76,14 +77,14 @@ export class TrainingScreen extends Screen {
                                     else if (p._trainedThisMatchday) { statusText = 'TRAINIERT'; statusColor = 'var(--text-cyan)'; }
                                     return `
                                         <tr data-train-player="${p.id}" style="cursor: pointer;">
-                                            <td style="color: var(--text-bright);">${p.shortName}</td>
+                                            <td style="color: var(--text-bright); max-width: 90px; overflow: hidden; text-overflow: ellipsis;">${p.shortName}</td>
                                             <td style="color: var(--text-cyan);">${p.position}</td>
                                             <td class="num" style="color: ${overallColor};">${p.overall}</td>
-                                            <td class="num">${p.speed || '-'}</td>
-                                            <td class="num">${p.shooting || '-'}</td>
-                                            <td class="num">${p.passing || '-'}</td>
-                                            <td class="num">${p.defense || '-'}</td>
-                                            <td class="num">${p.goalkeeper || '-'}</td>
+                                            <td class="num col-hide-mobile">${p.speed || '-'}</td>
+                                            <td class="num col-hide-mobile">${p.shooting || '-'}</td>
+                                            <td class="num col-hide-mobile">${p.passing || '-'}</td>
+                                            <td class="num col-hide-mobile">${p.defense || '-'}</td>
+                                            <td class="num col-hide-mobile">${p.goalkeeper || '-'}</td>
                                             <td class="num" style="color: ${fitnessColor};">${p.fitness}</td>
                                             <td class="num" style="color: ${moraleColor};">${p.morale}</td>
                                             <td style="color: ${statusColor}; font-size: 0.5rem;">${statusText}</td>
@@ -92,6 +93,7 @@ export class TrainingScreen extends Screen {
                                 }).join('')}
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
 
@@ -144,7 +146,7 @@ export class TrainingScreen extends Screen {
         const types = TrainingEngine.getTrainingTypes();
 
         const html = `
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px;">
+            <div class="training-cards-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px;">
                 ${types.map(t => {
                     const check = TrainingEngine.canTrain(player, t, team);
                     const chance = TrainingEngine.getSuccessChance(player, t);
@@ -158,20 +160,20 @@ export class TrainingScreen extends Screen {
                         <div style="border: 1px solid ${check.available ? 'var(--text-cyan)' : 'var(--text-muted)'};
                                     padding: 8px; background: rgba(0,0,0,0.3);
                                     ${check.available ? 'cursor: pointer;' : 'opacity: 0.5;'}"
-                             class="training-card" data-training="${t.id}" data-available="${check.available}">
-                            <div style="font-size: 0.7rem; color: var(--text-bright);">
+                             class="training-card training-card-mobile" data-training="${t.id}" data-available="${check.available}">
+                            <div class="card-title" style="font-size: 0.7rem; color: var(--text-bright);">
                                 ${t.icon} ${t.name}
                             </div>
-                            <div style="font-size: 0.55rem; color: var(--text-muted); margin-top: 4px;">
+                            <div class="card-detail" style="font-size: 0.55rem; color: var(--text-muted); margin-top: 4px;">
                                 Aktuell: <span style="color: var(--text-yellow);">${currentVal}</span>
                                 ${t.isTeamTraining ? '' : ` | +${t.minGain}-${t.maxGain}`}
                             </div>
-                            <div style="font-size: 0.55rem; color: var(--text-muted);">
+                            <div class="card-detail" style="font-size: 0.55rem; color: var(--text-muted);">
                                 Chance: <span style="color: ${chanceColor};">${chancePercent}%</span>
                                 | Kosten: <span style="color: var(--text-yellow);">${TrainingEngine.formatCost(t.cost)}</span>
                             </div>
-                            ${t.fitnessLoss > 0 ? `<div style="font-size: 0.5rem; color: var(--text-red);">Fitness -${t.fitnessLoss}</div>` : ''}
-                            ${!check.available ? `<div style="font-size: 0.5rem; color: var(--text-red); margin-top: 2px;">${check.reason}</div>` : ''}
+                            ${t.fitnessLoss > 0 ? `<div class="card-detail" style="font-size: 0.5rem; color: var(--text-red);">Fitness -${t.fitnessLoss}</div>` : ''}
+                            ${!check.available ? `<div class="card-detail" style="font-size: 0.5rem; color: var(--text-red); margin-top: 2px;">${check.reason}</div>` : ''}
                         </div>
                     `;
                 }).join('')}

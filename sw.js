@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bmh-v4';
+const CACHE_NAME = 'bmh-v5';
 
 const ASSETS = [
     './',
@@ -22,6 +22,7 @@ const ASSETS = [
     './src/engine/LeagueManager.js',
     './src/engine/MatchEngine.js',
     './src/engine/TransferMarket.js',
+    './src/engine/TrainingEngine.js',
     './src/data/teams-bl1.js',
     './src/data/players-bl1.js',
     './src/data/formations.js',
@@ -37,6 +38,7 @@ const ASSETS = [
     './src/ui/FinancesScreen.js',
     './src/ui/StadiumScreen.js',
     './src/ui/TransferScreen.js',
+    './src/ui/TrainingScreen.js',
 ];
 
 // Install: cache all assets
